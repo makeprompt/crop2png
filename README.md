@@ -1,7 +1,10 @@
 # crop2png
-## 何するファイル
+## 何ができるソフトですか？
 自炊した画像ファイルから学習用データを**手動**で高速トリミングするソフト
-![image](https://github.com/user-attachments/assets/a9aac908-8d66-4abe-aaa6-537802af1339)
+
+このソフトはChatGPTにより生成されたコードに手修正を加えて作成されています。
+
+![image](https://github.com/user-attachments/assets/ed7f58d0-beee-4c3b-be03-9001c6a70f71)
 
 ## 使い方
 1. トリミングしたいファイルをどこかのフォルダにまとめてファイルかフォルダをウインドウにドラッグアンドドロップするか画像選択ダイアログから選択します。
