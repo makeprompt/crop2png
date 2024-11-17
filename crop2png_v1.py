@@ -34,8 +34,8 @@ class ImageCropperApp:
         self.folder_path = ""  # 現在のフォルダパス
 
         # ウィンドウのサイズを取得
-        self.window_width = 1920
-        self.window_height = 1080
+        self.window_width = 1200
+        self.window_height = 800
         self.ui_reserved_height = 100  # ラベルやボタンの高さの合計
 
         # キーボードイベントのバインド
@@ -45,21 +45,33 @@ class ImageCropperApp:
         self.root.drop_target_register(DND_FILES)
         self.root.dnd_bind("<<Drop>>", self.on_drop)
 
+
+    
     def on_drop(self, event):
         # ドラッグ＆ドロップされたファイルorフォルダを読み込む
         # Windows形式で追加される{}を削除してリスト化
 
-        file_path = event.data.strip()
+        file_path = self.parse_file_paths(event.data)
 
-        if file_path.startswith("{") and file_path.endswith("}"):
-            file_path = re.findall(r'\{(.*?)\}',file_path)  # 非貪欲マッチ（最小マッチ）
-            file_path.sort()
+        # print(file_path) #デバックprint
+
+        # if file_path.startswith("{") and file_path.endswith("}"):
+        #     file_path = re.findall(r'\{(.*?)\}',file_path)  # 非貪欲マッチ（最小マッチ）
+        #     file_path.sort()
         # 複数ファイルがドラッグされた場合、ソートして最初の1つだけを処理
         if os.path.isfile(file_path[0]):
             self.load_dropped_file(file_path[0])
         
         if os.path.isdir(file_path[0]):
             self.load_dropped_folder(file_path[0])
+
+    def parse_file_paths(self,data):
+
+        # パスが{}で囲まれている場合を考慮
+        pattern = r'(?<!\\)\"(.*?)\"|(?<!\\)\{(.*?)\}|(\S+)'  # ダブルクオート、波括弧、スペース区切り対応
+        matches = re.findall(pattern, data)
+        # マッチしたグループから値を抽出してリスト化
+        return [match[0] or match[1] or match[2] for match in matches]
 
     def load_dropped_file(self, file_path):
 
@@ -189,7 +201,7 @@ class ImageCropperApp:
 
 
             # 保存フォルダの作成
-            output_folder = os.path.join(os.path.dirname(__file__), "output")
+            output_folder = os.path.join(os.getcwd(), "output")
             os.makedirs(output_folder, exist_ok=True)
 
             # 重複しないファイル名を生成(4桁0フィルで重複しない数値までチェックして保存)
@@ -208,7 +220,7 @@ class ImageCropperApp:
         if self.image:
 
             # 保存フォルダの作成
-            output_folder = os.path.join(os.path.dirname(__file__), "output")
+            output_folder = os.path.join(os.getcwd(), "output")
             os.makedirs(output_folder, exist_ok=True)
 
             # 重複しないファイル名を生成(4桁0フィルで重複しない数値までチェックして保存)
@@ -225,6 +237,6 @@ class ImageCropperApp:
             self.label.config(text=f"トリミングした画像を保存しました: {save_path}")
 if __name__ == "__main__":
     root = TkinterDnD.Tk()  # TkinterDnDを使用
-    root.geometry("1920x1080")  # ウィンドウサイズを指定
+    root.geometry("1200x800")  # ウィンドウサイズを指定
     app = ImageCropperApp(root)
     root.mainloop()
