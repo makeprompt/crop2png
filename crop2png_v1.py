@@ -10,17 +10,17 @@ class ImageCropperApp:
         self.root.title("Image Cropper")
 
         # UI要素
-        self.label = Label(root, text="画像をドラッグ＆ドロップするか、ファイルを開いてください")
+        self.label = Label(root, text="画像またはフォルダをドラッグ＆ドロップしてください。マウスホイールで画像切り替え、sで選択範囲を保存、aで画像全体を保存します。")
         self.label.pack()
 
-        self.open_button = Button(root, text="画像を選択", command=self.open_image)
-        self.open_button.pack()
+        # self.open_button = Button(root, text="画像を選択", command=self.open_image)
+        # self.open_button.pack()
 
         self.canvas = Canvas(root, bg="gray")
         self.canvas.pack(fill="both", expand=True)
 
-        self.crop_button = Button(root, text="トリミングを保存(s)", command=self.save_crop, state="disabled")
-        self.crop_button.pack()
+        # self.crop_button = Button(root, text="トリミングを保存(s)", command=self.save_crop, state="disabled")
+        # self.crop_button.pack()
 
         # 初期化
         self.image = None
@@ -36,7 +36,7 @@ class ImageCropperApp:
         # ウィンドウのサイズを取得
         self.window_width = 1200
         self.window_height = 800
-        self.ui_reserved_height = 100  # ラベルやボタンの高さの合計
+        self.ui_reserved_height = 25  # ラベルやボタンの高さの合計
 
         # キーボードイベントのバインド
         self.root.bind("s", lambda event: self.save_crop())
@@ -148,7 +148,7 @@ class ImageCropperApp:
             self.canvas.bind("<B1-Motion>", self.update_crop)
             self.canvas.bind("<ButtonRelease-1>", self.end_crop)
 
-            self.crop_button.config(state="normal")
+            # self.crop_button.config(state="normal")
 
     def scroll_image(self, event):
         # マウスホイールで前後の画像に移動
